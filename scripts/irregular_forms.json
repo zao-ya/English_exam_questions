@@ -1,0 +1,53 @@
+{
+  "_description": "英语不规则变化形式词典。这些形式在统计时作为独立条目，不被词形还原到原形。",
+
+  "irregular_verbs_past": [
+    "was", "were", "had", "did", "went", "said", "got", "made", "knew",
+    "thought", "took", "saw", "came", "found", "gave", "told", "felt",
+    "became", "left", "put", "meant", "kept", "let", "began", "seemed",
+    "helped", "showed", "heard", "played", "ran", "moved", "lived",
+    "believed", "held", "brought", "happened", "wrote", "provided",
+    "sat", "stood", "lost", "paid", "met", "included", "continued",
+    "set", "learnt", "learned", "changed", "led", "understood",
+    "watched", "followed", "stopped", "created", "spoke", "read",
+    "allowed", "added", "spent", "grew", "opened", "walked", "won",
+    "taught", "offered", "remembered", "considered", "appeared",
+    "bought", "waited", "served", "died", "sent", "built", "stayed",
+    "fell", "cut", "reached", "killed", "remained", "suggested",
+    "raised", "passed", "required", "reported", "decided", "pulled",
+    "broke", "received", "agreed", "hit", "wore", "drove", "ate",
+    "drank", "sang", "swam", "flew", "chose", "forgot", "froze",
+    "hid", "rode", "rang", "rose", "stole", "swore", "tore", "woke",
+    "laid", "dealt", "fed", "fought", "sought", "hung", "shot",
+    "drew", "threw", "blew", "withdrew", "undertook", "overcame",
+    "bore", "struck", "dug", "bound", "wound", "wept", "swept",
+    "crept", "leapt", "knelt", "spilt", "spelt", "burnt", "dreamt"
+  ],
+
+  "irregular_verbs_past_participle": [
+    "been", "gone", "done", "seen", "known", "taken", "given", "written",
+    "broken", "driven", "eaten", "fallen", "forgotten", "hidden",
+    "ridden", "risen", "spoken", "stolen", "sworn", "torn", "woken",
+    "worn", "flown", "chosen", "frozen", "beaten", "bitten", "blown",
+    "drawn", "grown", "thrown", "withdrawn", "borne", "shaken",
+    "sunk", "struck", "swum", "begun", "rung", "sprung"
+  ],
+
+  "irregular_nouns": [
+    "children", "men", "women", "mice", "feet", "teeth", "geese",
+    "oxen", "lice", "people", "data", "phenomena", "criteria",
+    "analyses", "theses", "hypotheses", "bases", "crises", "indices",
+    "appendices", "formulae", "bacteria", "curricula", "media",
+    "alumni", "fungi", "stimuli", "nuclei", "radii", "cacti"
+  ],
+
+  "irregular_comparative": [
+    "better", "worse", "more", "less", "further", "farther",
+    "elder", "older"
+  ],
+
+  "irregular_superlative": [
+    "best", "worst", "most", "least", "furthest", "farthest",
+    "eldest", "oldest"
+  ]
+}

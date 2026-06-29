@@ -6,7 +6,21 @@ $RECYCLE.BIN/
 # macOS
 .DS_Store
 
+# Python
+__pycache__/
+*.pyc
+
 # Temp files
 *.tmp
 *.temp
 ~$*
+
+# Database (too large, regeneratable)
+data/exam_words.db
+
+# Intermediate processing files
+data/extracted/
+data/parsed_blocks*.json
+data/word_stats*.json
+data/occurrences*.json
+data/audit_*.txt

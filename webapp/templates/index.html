@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研英语真题词频统计</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div id="app">
+  <header class="topbar">
+    <h1>考研英语真题词频统计 <span class="subtitle">2000–2026</span></h1>
+    <button id="btn-export" class="btn btn-primary">📥 导出 Excel</button>
+  </header>
+
+  <div class="main-layout">
+    <!-- 左侧筛选面板 -->
+    <aside class="filter-panel" id="filter-panel">
+      <div class="stats-bar" id="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="stat-word-count">—</span>
+          <span class="stat-label">个不同单词</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-freq-sum">—</span>
+          <span class="stat-label">次总出现</span>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <input type="text" id="filter-search" placeholder="🔍 搜索单词…" class="filter-input">
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">
+          总词频
+          <button class="btn-clear-inline" data-clear="freq" title="清空">×</button>
+        </label>
+        <div class="tier-group" id="freq-tier-group">
+          <label class="tier-item"><input type="checkbox" value="1"> L1 仅1次</label>
+          <label class="tier-item"><input type="checkbox" value="2"> L2 2–5次</label>
+          <label class="tier-item"><input type="checkbox" value="3"> L3 6–20次</label>
+          <label class="tier-item"><input type="checkbox" value="4"> L4 21–100次</label>
+          <label class="tier-item"><input type="checkbox" value="5"> L5 100次以上</label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">
+          出现年份数
+          <button class="btn-clear-inline" data-clear="year_count" title="清空">×</button>
+        </label>
+        <div class="tier-group" id="yc-tier-group">
+          <label class="tier-item"><input type="checkbox" value="1"> L1 仅1年</label>
+          <label class="tier-item"><input type="checkbox" value="2"> L2 2–5年</label>
+          <label class="tier-item"><input type="checkbox" value="3"> L3 6–10年</label>
+          <label class="tier-item"><input type="checkbox" value="4"> L4 11–20年</label>
+          <label class="tier-item"><input type="checkbox" value="5"> L5 20年以上</label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">
+          首次出现年份
+          <button class="btn-clear-inline" data-clear="first_year" title="清空">×</button>
+        </label>
+        <input type="number" id="filter-first-year" placeholder="如 2020" min="2000" max="2026" class="filter-input">
+      </div>
+
+      <!-- 年份勾选 -->
+      <div class="filter-section">
+        <div class="filter-label toggle-label" id="toggle-years">
+          出现年份 <span class="toggle-arrow">▾</span>
+        </div>
+        <div class="quick-actions" id="years-quick">
+          <button class="btn-mini" data-action="all">全选</button>
+          <button class="btn-mini" data-action="none">取消</button>
+          <button class="btn-mini" data-action="00s">00s</button>
+          <button class="btn-mini" data-action="10s">10s</button>
+          <button class="btn-mini" data-action="20s">20s</button>
+        </div>
+        <div class="checkbox-group" id="years-group"></div>
+      </div>
+
+      <!-- 题型勾选 -->
+      <div class="filter-section">
+        <div class="filter-label toggle-label" id="toggle-types">
+          题型 <span class="toggle-arrow">▾</span>
+        </div>
+        <div class="quick-actions" id="types-quick">
+          <button class="btn-mini" data-action="all">全选</button>
+          <button class="btn-mini" data-action="none">取消</button>
+        </div>
+        <div class="checkbox-group" id="types-group"></div>
+      </div>
+
+      <div class="filter-actions">
+        <button id="btn-reset" class="btn btn-secondary">重置</button>
+      </div>
+    </aside>
+
+    <!-- 右侧主内容区 -->
+    <main class="content-area">
+      <!-- 激活的筛选标签 -->
+      <div class="active-filters" id="active-filters" style="display:none;">
+        <span class="active-label">筛选条件：</span>
+        <span id="active-tags"></span>
+        <button id="btn-clear-filters" class="btn-mini clear">✕ 清除全部</button>
+      </div>
+
+      <div id="table-container">
+        <table class="word-table" id="word-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-sort="word">单词</th>
+              <th class="sortable active sort-desc" data-sort="freq">总词频</th>
+              <th class="sortable" data-sort="year_count">年份数</th>
+              <th class="sortable" data-sort="first_year">首次</th>
+              <th>分题型词频</th>
+            </tr>
+          </thead>
+          <tbody id="word-table-body"></tbody>
+        </table>
+        <div class="loading" id="loading-indicator" style="display:none;">加载中…</div>
+        <div class="empty-state" id="empty-state" style="display:none;">没有匹配的单词</div>
+      </div>
+
+      <div class="pagination" id="pagination">
+        <button id="btn-prev" class="btn btn-sm">← 上一页</button>
+        <span id="page-info">第 1 页 / 共 1 页</span>
+        <button id="btn-next" class="btn btn-sm">下一页 →</button>
+        <span class="page-jump">
+          跳转 <input type="number" id="page-jump-input" min="1" value="1" class="jump-input"> 页
+          <button id="btn-jump" class="btn btn-sm">GO</button>
+        </span>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 单词详情弹窗 -->
+<div class="modal-overlay" id="modal-overlay" style="display:none;">
+  <div class="modal-content" id="modal-content">
+    <div class="modal-header">
+      <div class="modal-word-info">
+        <h2 id="modal-word">—</h2>
+        <span id="modal-stats"></span>
+      </div>
+      <button class="btn-close" id="btn-close-modal">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button id="modal-btn-prev" class="btn btn-sm">← 上一页</button>
+      <span id="modal-page-info">第 1 页 / 共 1 页</span>
+      <button id="modal-btn-next" class="btn btn-sm">下一页 →</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
