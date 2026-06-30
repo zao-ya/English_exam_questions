@@ -1,17 +1,29 @@
-# 考研英语真题词频统计 WebApp
+# 考研英语真题词频统计
 
-一个本地运行的 Web 应用，对 **2000–2026 年考研英语真题** 进行词频统计，支持多维筛选、单词定位和 Excel 导出。
+一个本地运行的应用，对 **2000–2026 年考研英语真题** 进行词频统计，支持多维筛选、单词定位和 Excel 导出。
 
 ---
 
-## ⚡ 一键启动
+## 🚀 快速下载（Windows 用户无需安装任何东西）
 
-> 项目已包含完整数据库和自动安装脚本，**双击 `启动.bat` 即可使用**，无需任何手动配置。
+<div align="center">
+
+### 👉 **[⬇ 点击下载桌面版 EXE](https://github.com/zao-ya/English_exam_questions/releases/latest)**
+
+</div>
+
+下载后双击 `考研英语词频统计.exe` 即可运行，**无需安装 Python 或任何依赖**。
+
+---
+
+## ⚡ 一键启动（开发者/高级用户）
+
+> 项目已包含完整数据库和自动安装脚本，**双击 `tools\启动.bat` 即可使用**，无需任何手动配置。
 
 ### Windows 用户
 
 1. 下载并解压项目
-2. 双击 **`启动.bat`**
+2. 双击 **`tools\启动.bat`**
 3. 脚本会自动完成以下工作：
    - ✅ 检查 Python 环境
    - ✅ 自动安装依赖库（`pip install`）
@@ -25,8 +37,8 @@
 ### Mac / Linux 用户
 
 ```bash
-chmod +x start.sh
-./start.sh
+chmod +x tools/start.sh
+./tools/start.sh
 ```
 
 ---
@@ -56,7 +68,7 @@ chmod +x start.sh
 打开项目文件夹，在地址栏输入 `cmd` 回车，执行：
 
 ```bash
-pip install -r requirements.txt
+pip install -r tools\requirements.txt
 ```
 
 ### 第三步：下载 NLTK 数据
@@ -68,7 +80,7 @@ python -c "import nltk; nltk.download('wordnet'); nltk.download('punkt'); nltk.d
 ### 第四步：启动应用
 
 ```bash
-python webapp\app.py
+python src\webapp\app.py
 ```
 
 浏览器打开 `http://127.0.0.1:5000` 即可使用。
@@ -94,7 +106,7 @@ python webapp\app.py
 
 如果你修改了 PDF 源文件或脚本，可以重新跑数据处理流水线。
 
-**方法一**：删除 `data\exam_words.db`，然后重新运行 `启动.bat`，脚本会自动检测并引导你重建数据。
+**方法一**：删除 `src\data\exam_words.db`，然后重新运行 `tools\启动.bat`，脚本会自动检测并引导你重建数据。
 
 **方法二**：手动执行各步骤：
 
@@ -125,27 +137,26 @@ python freq_builder.py
 ## 📁 项目结构
 
 ```
-├── 英语真题源文件PDF/       # 原始 PDF（2000-2026，27份）
-├── scripts/                # 数据处理脚本
-│   ├── pdf_extractor.py    # PDF 文本提取
-│   ├── exam_parser.py      # 题型解析 + 句子提取
-│   ├── word_splitter.py    # 合并词拆分
-│   ├── manual_fix.py       # 手动修正规则
-│   ├── word_processor.py   # 单词提取 + 规范化
-│   ├── freq_builder.py     # 数据库构建
-│   └── irregular_forms.json # 不规则形式词典
-├── data/
-│   ├── exam_words.db       # SQLite 数据库（已包含完整数据）
-│   └── word_freq_export.txt # 分级词频导出
-├── webapp/                 # Web 应用
-│   ├── app.py              # Flask 后端
-│   ├── templates/
-│   │   └── index.html      # 前端页面
-│   └── static/
-├── 启动.bat                # Windows 一键启动脚本
-├── start.sh                # Mac/Linux 启动脚本
-├── requirements.txt        # Python 依赖列表
-└── README.md
+├── 考研英语词频统计.exe       # ★ 桌面版，双击即用
+├── 英语真题源文件PDF/           # 原始 PDF（2000-2026，27份）
+├── src/                       # 源码和数据
+│   ├── desktop_app.py         # 桌面版入口
+│   ├── webapp/                # Web 应用
+│   │   ├── app.py             # Flask 后端
+│   │   ├── templates/
+│   │   │   └── index.html     # 前端页面
+│   │   └── static/
+│   ├── scripts/               # 数据处理脚本
+│   └── data/
+│       └── exam_words.db      # SQLite 数据库（已包含完整数据）
+├── tools/                     # 工具脚本
+│   ├── 启动.bat               # Windows 一键启动
+│   ├── 启动桌面版.bat         # 桌面版快捷启动
+│   ├── build_exe.bat          # PyInstaller 打包脚本
+│   ├── start.sh               # Mac/Linux 启动
+│   └── requirements.txt       # Python 依赖列表
+└── docs/                      # 文档
+    └── README.md
 ```
 
 ---
@@ -153,13 +164,13 @@ python freq_builder.py
 ## ❓ 常见问题
 
 **Q: 启动后网页是空白的？**
-A: 这说明数据库无效。`启动.bat` 会自动检测并提示重建，选择 Y 等待 5-10 分钟即可。
+A: 这说明数据库无效。`tools\启动.bat` 会自动检测并提示重建，选择 Y 等待 5-10 分钟即可。
 
 **Q: 提示 `pip 不是内部命令`？**
 A: 安装 Python 时没有勾选 `Add Python to PATH`。重新安装 Python 并勾选即可。
 
 **Q: NLTK 数据下载失败？**
-A: 网络问题，可以稍后重试。`启动.bat` 每次都会检查并自动补下。
+A: 网络问题，可以稍后重试。`tools\启动.bat` 每次都会检查并自动补下。
 
 **Q: 数据库在哪？**
 A: `data/exam_words.db`，可以用任何 SQLite 工具打开查看。
