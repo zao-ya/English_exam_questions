@@ -12,7 +12,7 @@
 
 </div>
 
-1. 下载 `考研英语词频统计.exe`
+1. 下载 `KaoyanWords.exe`
 2. 双击运行，**无需安装 Python 或任何依赖**
 3. 应用窗口自动打开，即可使用
 
@@ -116,7 +116,7 @@ python -m PyInstaller --onefile --noconsole --name "考研英语词频统计" ^
   src\desktop_app.py
 ```
 
-打包后 `考研英语词频统计.exe` 生成在项目根目录，约 47 MB。
+打包后 `KaoyanWords.exe` 生成在项目根目录，约 47 MB。
 
 ---
 
@@ -157,7 +157,7 @@ python freq_builder.py
 ## 📁 项目结构
 
 ```
-├── 考研英语词频统计.exe       # ★ 桌面版，双击即用
+├── KaoyanWords.exe       # ★ 桌面版，双击即用
 ├── 英语真题源文件PDF/           # 原始 PDF（2000–2026，27 份）
 │
 ├── src/                       # 源码和数据

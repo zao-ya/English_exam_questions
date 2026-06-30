@@ -7,8 +7,8 @@ title 考研英语真题词频统计
 cd /d "%~dp0\.."
 
 :: 优先使用打包好的 exe
-if exist "%~dp0\..\考研英语词频统计.exe" (
-    start "" "%~dp0\..\考研英语词频统计.exe"
+if exist "%~dp0\..\KaoyanWords.exe" (
+    start "" "%~dp0\..\KaoyanWords.exe"
     exit /b 0
 )
 
@@ -26,5 +26,5 @@ if %errorlevel% equ 0 (
     exit /b 0
 )
 
-echo [错误] 未找到 考研英语词频统计.exe 或 Python
+echo [错误] 未找到 KaoyanWords.exe 或 Python
 pause

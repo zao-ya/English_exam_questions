@@ -9,7 +9,7 @@ echo ║       考研英语真题词频统计 — PyInstaller 打包器         
 echo ╚══════════════════════════════════════════════════════════╝
 echo.
 echo   即将使用 PyInstaller 打包为单个 .exe 桌面应用。
-echo   最终文件: 考研英语词频统计.exe（约 50 MB，项目根目录）
+echo   最终文件: KaoyanWords.exe（约 50 MB，项目根目录）
 echo   无命令行窗口，双击即可运行。
 echo.
 
@@ -38,8 +38,8 @@ echo [✓] PyInstaller 已就绪
 :: ── 4. 清理旧构建 ──
 if exist "build" rmdir /s /q "build"
 if exist "dist" rmdir /s /q "dist"
-if exist "考研英语词频统计.exe" del /q "考研英语词频统计.exe"
-if exist "考研英语词频统计.spec" del /q "考研英语词频统计.spec"
+if exist "KaoyanWords.exe" del /q "KaoyanWords.exe"
+if exist "KaoyanWords.spec" del /q "KaoyanWords.spec"
 echo [✓] 旧构建已清理
 
 :: ── 5. PyInstaller 打包 ──
@@ -52,7 +52,7 @@ echo.
 python -m PyInstaller ^
   --onefile ^
   --noconsole ^
-  --name "考研英语词频统计" ^
+  --name "KaoyanWords" ^
   --add-data "src\webapp\templates;webapp\templates" ^
   --add-data "src\webapp\static;webapp\static" ^
   --add-data "src\data\exam_words.db;data" ^
@@ -70,7 +70,7 @@ if %errorlevel% neq 0 (
 )
 
 :: ── 6. 复制到根目录 ──
-copy /y "dist\考研英语词频统计.exe" "考研英语词频统计.exe" >nul
+copy /y "dist\KaoyanWords.exe" "KaoyanWords.exe" >nul
 echo [✓] 已复制到根目录
 
 echo.
@@ -78,7 +78,7 @@ echo ╔════════════════════════
 echo ║                                                          ║
 echo ║   ✅ 打包完成！                                           ║
 echo ║                                                          ║
-echo ║   文件位置: 考研英语词频统计.exe  （项目根目录，双击运行）  ║
+echo ║   文件位置: KaoyanWords.exe  （项目根目录，双击运行）  ║
 echo ║                                                          ║
 echo ╚══════════════════════════════════════════════════════════╝
 echo.
