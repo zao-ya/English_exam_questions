@@ -12,8 +12,11 @@ from flask import Flask, jsonify, request, send_file, render_template
 
 app = Flask(__name__)
 
-# 数据库路径
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'exam_words.db')
+# 数据库路径（支持环境变量覆盖，方便 PyInstaller 打包后指定路径）
+DB_PATH = os.environ.get(
+    'EXAM_WORDS_DB_PATH',
+    os.path.join(os.path.dirname(__file__), '..', 'data', 'exam_words.db')
+)
 
 
 def get_db():

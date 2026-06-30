@@ -348,12 +348,10 @@ function applyFilters() {
 
 function resetFilters() {
   dom.filterSearch.value = '';
-  dom.filterFreqMin.value = '';
-  dom.filterFreqMax.value = '';
-  dom.yearsGroup.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-  dom.filterYcMin.value = '';
-  dom.filterYcMax.value = '';
+  dom.freqTierGroup.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  dom.ycTierGroup.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
   dom.filterFirstYear.value = '';
+  dom.yearsGroup.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
   dom.typesGroup.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
   applyFilters();
 }

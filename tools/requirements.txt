@@ -5,3 +5,5 @@ pdfplumber>=0.11.0
 nltk>=3.9.0
 flask>=3.0.0
 openpyxl>=3.1.0
+pywebview>=5.0
+pyinstaller>=6.0

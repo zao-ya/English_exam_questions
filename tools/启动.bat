@@ -20,17 +20,17 @@ if %errorlevel% neq 0 (
 for /f "tokens=2" %%i in ('python --version 2^>^&1') do set PYVER=%%i
 echo [✓] Python 版本: %PYVER%
 
-:: ── 2. 切换到项目目录 ──
-cd /d "%~dp0"
-set PROJECT_DIR=%~dp0
+:: ── 2. 切换到项目根目录 ──
+cd /d "%~dp0\.."
+set PROJECT_DIR=%cd%
 echo [✓] 项目目录: %PROJECT_DIR%
 
 :: ── 3. 自动安装依赖 ──
 echo.
 echo [*] 自动安装依赖库（已安装的会自动跳过）...
-pip install -r requirements.txt -q
+pip install -r tools\requirements.txt -q
 if %errorlevel% neq 0 (
-    echo [错误] 依赖安装失败，请手动运行: pip install -r requirements.txt
+    echo [错误] 依赖安装失败，请手动运行: pip install -r tools\requirements.txt
     pause
     exit /b 1
 )
@@ -54,15 +54,15 @@ if %errorlevel% neq 0 (
 
 :: ── 5. 检查数据库 ──
 echo.
-if exist "data\exam_words.db" (
-    for %%A in ("data\exam_words.db") do set DBSIZE=%%~zA
+if exist "src\data\exam_words.db" (
+    for %%A in ("src\data\exam_words.db") do set DBSIZE=%%~zA
     if !DBSIZE! gtr 102400 (
         echo [✓] 数据库已存在（!DBSIZE! 字节），跳过数据处理
         set NEED_BUILD=0
         goto :skip_build
     ) else (
         echo [!] 数据库文件大小异常（仅 !DBSIZE! 字节，预期 ^>100KB），自动删除并重建...
-        del "data\exam_words.db"
+        del "src\data\exam_words.db"
     )
 )
 echo [!] 数据库不存在或无效，需要先处理 PDF 数据
@@ -75,8 +75,8 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     if errorlevel 2 goto :skip_build
     echo.
     echo [*] ====== Step 1/6: PDF 文本提取 ======
-    pushd scripts
-    python pdf_extractor.py "..\英语真题源文件PDF" "..\data\extracted"
+    pushd src\scripts
+    python pdf_extractor.py "..\..\英语真题源文件PDF" "..\data\extracted"
     if %errorlevel% neq 0 (
         popd
         echo [错误] PDF 提取失败
@@ -87,7 +87,7 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     echo [✓] Step 1/6 完成
 
     echo [*] ====== Step 2/6: 题型解析 ======
-    pushd scripts
+    pushd src\scripts
     python exam_parser.py
     if %errorlevel% neq 0 (
         popd
@@ -99,7 +99,7 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     echo [✓] Step 2/6 完成
 
     echo [*] ====== Step 3/6: 合并词修复 ======
-    pushd scripts
+    pushd src\scripts
     python word_splitter.py
     if %errorlevel% neq 0 (
         echo [警告] 合并词修复失败，继续执行...
@@ -107,7 +107,7 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     popd
 
     echo [*] ====== Step 4/6: 手动修正 ======
-    pushd scripts
+    pushd src\scripts
     python manual_fix.py
     if %errorlevel% neq 0 (
         echo [警告] 手动修正失败，继续执行...
@@ -115,7 +115,7 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     popd
 
     echo [*] ====== Step 5/6: 单词提取与词频统计 ======
-    pushd scripts
+    pushd src\scripts
     python word_processor.py
     if %errorlevel% neq 0 (
         popd
@@ -127,7 +127,7 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     echo [✓] Step 5/6 完成
 
     echo [*] ====== Step 6/6: 数据库构建 ======
-    pushd scripts
+    pushd src\scripts
     python freq_builder.py
     if %errorlevel% neq 0 (
         popd
@@ -142,7 +142,7 @@ echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     set NEED_BUILD=1
 
 :skip_build
-if not exist "data\exam_words.db" (
+if not exist "src\data\exam_words.db" (
     echo [错误] 数据库文件不存在，无法启动 WebApp
     pause
     exit /b 1
@@ -162,6 +162,6 @@ echo ╚════════════════════════
 echo.
 
 :: 启动 Flask（会自动打开浏览器）
-python webapp\app.py
+python src\webapp\app.py
 
 pause
