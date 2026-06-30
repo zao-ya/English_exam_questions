@@ -6,6 +6,8 @@ import sqlite3
 import json
 import os
 import io
+import webbrowser
+import threading
 from flask import Flask, jsonify, request, send_file, render_template
 
 app = Flask(__name__)
@@ -439,4 +441,8 @@ def index():
 # 启动
 # ============================================================
 if __name__ == '__main__':
+    # Flask debug 模式会启动 reloader（父子两个进程）
+    # 只在 reloader 子进程（实际运行 Flask 的进程）中打开浏览器
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        threading.Timer(1.5, lambda: webbrowser.open('http://127.0.0.1:5000')).start()
     app.run(host='127.0.0.1', port=5000, debug=True)
