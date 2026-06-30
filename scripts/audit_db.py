@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Audit exam_words.db for data accuracy."""
 
-import sqlite3, json, sys
+import sqlite3, json, sys, os
 
-DB = r"D:\英语单词词频统计项目\data\exam_words.db"
+DB = os.path.join(os.path.dirname(__file__), '..', 'data', 'exam_words.db')
+DB = os.path.abspath(DB)
 
 def run():
     conn = sqlite3.connect(DB)
