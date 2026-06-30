@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 chcp 65001 >nul
 title 考研英语真题词频统计 WebApp
 
@@ -60,10 +61,17 @@ if %errorlevel% neq 0 (
 :: ── 5. 检查数据库 ──
 echo.
 if exist "data\exam_words.db" (
-    echo [✓] 数据库已存在，跳过数据处理
-    set NEED_BUILD=0
-) else (
-    echo [!] 数据库不存在，需要先处理 PDF 数据
+    for %%A in ("data\exam_words.db") do set DBSIZE=%%~zA
+    if !DBSIZE! gtr 102400 (
+        echo [✓] 数据库已存在（!DBSIZE! 字节），跳过数据处理
+        set NEED_BUILD=0
+        goto :skip_build
+    ) else (
+        echo [!] 数据库文件大小异常（仅 !DBSIZE! 字节，预期 ^>100KB），自动删除并重建...
+        del "data\exam_words.db"
+    )
+)
+echo [!] 数据库不存在或无效，需要先处理 PDF 数据
     echo.
     echo     完整数据处理需要 5-10 分钟，是否现在处理？
     echo     [Y] 是 — 运行完整数据处理流水线
@@ -138,7 +146,6 @@ if exist "data\exam_words.db" (
 
     echo [✓] 数据处理完成！
     set NEED_BUILD=1
-)
 
 :skip_build
 if not exist "data\exam_words.db" (

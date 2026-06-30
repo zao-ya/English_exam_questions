@@ -15,8 +15,8 @@ __pycache__/
 *.temp
 ~$*
 
-# Database (too large, regeneratable)
-data/exam_words.db
+# Database — now included in the repo so the project works out-of-the-box
+# data/exam_words.db
 
 # Intermediate processing files
 data/extracted/
