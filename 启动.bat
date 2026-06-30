@@ -25,22 +25,16 @@ cd /d "%~dp0"
 set PROJECT_DIR=%~dp0
 echo [✓] 项目目录: %PROJECT_DIR%
 
-:: ── 3. 检查 / 安装依赖 ──
+:: ── 3. 自动安装依赖 ──
 echo.
-echo [*] 检查 Python 依赖...
-pip show flask >nul 2>&1
+echo [*] 自动安装依赖库（已安装的会自动跳过）...
+pip install -r requirements.txt -q
 if %errorlevel% neq 0 (
-    echo [!] 正在安装依赖，请稍候...
-    pip install -r requirements.txt -q
-    if %errorlevel% neq 0 (
-        echo [错误] 依赖安装失败，请手动运行: pip install -r requirements.txt
-        pause
-        exit /b 1
-    )
-    echo [✓] 依赖安装完成
-) else (
-    echo [✓] 依赖已就绪
+    echo [错误] 依赖安装失败，请手动运行: pip install -r requirements.txt
+    pause
+    exit /b 1
 )
+echo [✓] 依赖已就绪
 
 :: ── 4. 检查 NLTK 数据 ──
 echo.
