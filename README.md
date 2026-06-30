@@ -4,24 +4,30 @@
 
 ---
 
-## ⚡ 一键启动（推荐）
+## ⚡ 一键启动
 
-> 项目已包含完整数据库，**双击即可启动**，无需手动配置。
+> 项目已包含完整数据库和自动安装脚本，**双击 `启动.bat` 即可使用**，无需任何手动配置。
 
 ### Windows 用户
 
-1. 双击项目根目录的 **`启动.bat`**
-2. 等待自动安装依赖（仅首次需要）
-3. 浏览器自动打开 `http://127.0.0.1:5000`
+1. 下载并解压项目
+2. 双击 **`启动.bat`**
+3. 脚本会自动完成以下工作：
+   - ✅ 检查 Python 环境
+   - ✅ 自动安装依赖库（`pip install`）
+   - ✅ 自动下载 NLTK 数据（首次约 1-2 分钟）
+   - ✅ 验证数据库完整性（异常数据库自动提示重建）
+   - ✅ 启动 WebApp 并打开浏览器
 4. 🎉 开始使用！
 
-### Mac / Linux / Git Bash 用户
+> **注意**：首次运行会自动安装依赖和下载 NLTK 数据，需要联网，请耐心等待 2-3 分钟。之后每次启动只需几秒。
+
+### Mac / Linux 用户
 
 ```bash
+chmod +x start.sh
 ./start.sh
 ```
-
----
 
 ---
 
@@ -39,99 +45,37 @@
 
 ## 🖥️ 手动部署（如果一键启动失败）
 
-> 全程不需要编程知识，跟着步骤走即可。预计 5 分钟。
-
-### 第一步：下载项目
-
-点击本页面右上角绿色的 **`<> Code`** 按钮 → **Download ZIP**，解压到你想放的文件夹。
-
-![download-zip](https://docs.github.com/assets/cb-20363/images/help/repository/code-button.png)
-
-### 第二步：安装 Python
-
-如果你的电脑还没有 Python：
+### 第一步：安装 Python
 
 1. 打开 [python.org](https://www.python.org/downloads/)
-2. 点击黄色 **Download Python** 按钮
-3. 运行下载的安装包
-4. ⚠️ **重要**：安装界面**勾选 `Add Python to PATH`**（底部复选框），然后点 Install
+2. 点击黄色 **Download Python** 按钮，运行安装包
+3. ⚠️ **重要**：安装界面**勾选 `Add Python to PATH`**
 
-### 第三步：安装依赖
+### 第二步：安装依赖
 
-打开解压后的项目文件夹，在地址栏输入 `cmd` 回车：
-
-![地址栏输入cmd](https://www.top-password.com/blog/wp-content/uploads/2019/01/open-command-window-here.png)
-
-在弹出的黑色窗口（命令提示符）中，输入以下命令并回车：
+打开项目文件夹，在地址栏输入 `cmd` 回车，执行：
 
 ```bash
-pip install pdfplumber nltk pandas flask openpyxl
+pip install -r requirements.txt
 ```
 
-等待出现 `Successfully installed` 字样。
-
-### 第四步：下载 NLTK 数据（只需一次）
-
-继续在黑色窗口中输入：
+### 第三步：下载 NLTK 数据
 
 ```bash
-python -c "import nltk; nltk.download('wordnet'); nltk.download('averaged_perceptron_tagger'); nltk.download('maxent_ne_chunker'); nltk.download('words'); nltk.download('punkt'); nltk.download('punkt_tab')"
+python -c "import nltk; nltk.download('wordnet'); nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('averaged_perceptron_tagger'); nltk.download('averaged_perceptron_tagger_eng'); nltk.download('words'); nltk.download('maxent_ne_chunker'); nltk.download('maxent_ne_chunker_tab')"
 ```
 
-等待出现 `Done` 字样。
-
-### 第五步：启动应用
-
-在黑色窗口中输入：
+### 第四步：启动应用
 
 ```bash
-cd /d D:\你的项目文件夹\webapp
-python app.py
+python webapp\app.py
 ```
 
-看到 `Running on http://127.0.0.1:5000` 就表示启动成功了。
-
-### 第六步：打开浏览器
-
-打开浏览器（Chrome/Edge 等），在地址栏输入：
-
-```
-http://127.0.0.1:5000
-```
-
-🎉 搞定！现在就可以使用了。
+浏览器打开 `http://127.0.0.1:5000` 即可使用。
 
 ---
 
 ## 🚀 快速上手
-
-### 界面说明
-
-```
-┌──────────────────────────────────────────────────┐
-│  考研英语真题词频统计               [📥 导出]    │
-├────────────┬─────────────────────────────────────┤
-│  统计概览   │                                     │
-│  8265 单词  │   单词表格（点击可查看详情）          │
-│  74989 次   │                                     │
-│            │                                     │
-│ 🔍 搜索…   │                                     │
-│            │                                     │
-│ 总词频      │                                     │
-│ ☐ L1 仅1次  │                                     │
-│ ☑ L2 2-5次  │                                     │
-│ ☑ L3 6-20次 │                                     │
-│ ...        │                                     │
-│            │                                     │
-│ 出现年份    │                                     │
-│ 全选 00s…  │                                     │
-│ ☐ 2000     │                                     │
-│ ☑ 2001     │                                     │
-│ ...        │                                     │
-│            │                                     │
-│ [重置]     │                                     │
-└────────────┴─────────────────────────────────────┘
-```
 
 ### 常用操作
 
@@ -148,28 +92,32 @@ http://127.0.0.1:5000
 
 ## 🔄 重新生成数据
 
-如果你修改了 PDF 源文件或脚本，可以重新跑数据处理流水线：
+如果你修改了 PDF 源文件或脚本，可以重新跑数据处理流水线。
+
+**方法一**：删除 `data\exam_words.db`，然后重新运行 `启动.bat`，脚本会自动检测并引导你重建数据。
+
+**方法二**：手动执行各步骤：
 
 ```bash
 cd scripts
 
 # Step 1: 从 PDF 提取文本
-python pdf_extractor.py ../英语真题源文件PDF ../data/extracted
+python pdf_extractor.py "..\英语真题源文件PDF" "..\data\extracted"
 
-# Step 2: 解析题型和句子
-python exam_parser.py ../data/extracted ../data/parsed_blocks.json
+# Step 2: 题型解析
+python exam_parser.py
 
-# Step 3: 拆分合并词
-python word_splitter.py ../data/parsed_blocks.json ../data/parsed_blocks_fixed.json
+# Step 3: 合并词拆分
+python word_splitter.py
 
 # Step 4: 手动修正
 python manual_fix.py
 
 # Step 5: 单词提取与规范化
-python word_processor.py --input ../data/parsed_blocks_final.json
+python word_processor.py
 
 # Step 6: 构建数据库
-python freq_builder.py ../data/word_stats_final.json ../data/occurrences_final.json ../data/exam_words.db
+python freq_builder.py
 ```
 
 ---
@@ -177,7 +125,7 @@ python freq_builder.py ../data/word_stats_final.json ../data/occurrences_final.j
 ## 📁 项目结构
 
 ```
-├── 英语真题源文件PDF/      # 原始 PDF（2000-2026，27份）
+├── 英语真题源文件PDF/       # 原始 PDF（2000-2026，27份）
 ├── scripts/                # 数据处理脚本
 │   ├── pdf_extractor.py    # PDF 文本提取
 │   ├── exam_parser.py      # 题型解析 + 句子提取
@@ -187,27 +135,31 @@ python freq_builder.py ../data/word_stats_final.json ../data/occurrences_final.j
 │   ├── freq_builder.py     # 数据库构建
 │   └── irregular_forms.json # 不规则形式词典
 ├── data/
-│   ├── exam_words.db       # SQLite 数据库（生成物）
+│   ├── exam_words.db       # SQLite 数据库（已包含完整数据）
 │   └── word_freq_export.txt # 分级词频导出
 ├── webapp/                 # Web 应用
-│   ├── app.py              # Flask 后端（启动这个文件）
+│   ├── app.py              # Flask 后端
 │   ├── templates/
 │   │   └── index.html      # 前端页面
 │   └── static/
-│       ├── css/style.css   # 样式
-│       └── js/app.js       # 前端逻辑
-└── README.md               # 本教程
+├── 启动.bat                # Windows 一键启动脚本
+├── start.sh                # Mac/Linux 启动脚本
+├── requirements.txt        # Python 依赖列表
+└── README.md
 ```
 
 ---
 
 ## ❓ 常见问题
 
-**Q: 打开网页是空白的？**
-A: 确认黑色窗口没关，且显示 `Running on http://127.0.0.1:5000`。
+**Q: 启动后网页是空白的？**
+A: 这说明数据库无效。`启动.bat` 会自动检测并提示重建，选择 Y 等待 5-10 分钟即可。
 
 **Q: 提示 `pip 不是内部命令`？**
-A: 安装 Python 时没有勾选 `Add Python to PATH`。重新安装并勾选即可。
+A: 安装 Python 时没有勾选 `Add Python to PATH`。重新安装 Python 并勾选即可。
+
+**Q: NLTK 数据下载失败？**
+A: 网络问题，可以稍后重试。`启动.bat` 每次都会检查并自动补下。
 
 **Q: 数据库在哪？**
 A: `data/exam_words.db`，可以用任何 SQLite 工具打开查看。
